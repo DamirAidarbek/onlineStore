@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import styles from '../../styles/User.module.css'
 
-import { toggleShow } from '../../features/user/userSlice'
+import { toggleShow, toggleFormType, createUser } from '../../features/user/userSlice'
 
 const UserSignupForm = () => {
   const dispatch = useDispatch()
@@ -22,7 +22,16 @@ const UserSignupForm = () => {
     setValues({...values, [name]: value })
   }
 
-  
+  const handleFormType = () => {
+    dispatch(toggleFormType('login'))
+  }
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault()
+
+    dispatch(createUser(values))
+    closeForm()
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -35,7 +44,7 @@ const UserSignupForm = () => {
 
       <div className={styles.title}>Sign Up</div>
 
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmitHandler}>
         <div className={styles.group}>
           <input
             type="email"
@@ -81,7 +90,7 @@ const UserSignupForm = () => {
           />
         </div>
 
-        <div className={styles.link}>
+        <div className={styles.link} onClick={handleFormType}>
           I already have an account
         </div>
 

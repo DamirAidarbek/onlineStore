@@ -10,8 +10,21 @@ export const apiSlice = createApi({
     getProduct: build.query({
       query: ({ id }) => `/products/${id}`,
       providesTags: ['Product']
+    }),
+    searchProduct: build.query({
+      query:({title, id, price_min, price_max}) => {
+        const params = {}
+        if (title) params.title = title
+        if (id) params.categoryId = id
+        if (price_min) params.price_min = price_min
+        if (price_max) params.price_max = price_max
+        return {
+          url: 'products/',
+          params: params
+        }
+      }
     })
   })
 })
 
-export const { useGetProductQuery } = apiSlice
+export const { useGetProductQuery, useSearchProductQuery } = apiSlice
