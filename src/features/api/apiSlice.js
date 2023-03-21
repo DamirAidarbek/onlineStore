@@ -18,9 +18,14 @@ export const apiSlice = createApi({
         if (id) params.categoryId = id
         if (price_min) params.price_min = price_min
         if (price_max) params.price_max = price_max
+        console.log('price_max' + price_max, 'price_min' + price_min)
         return {
           url: 'products/',
-          params: params
+          params: params,
+          providesTags: (result, error, arg) =>
+            result
+              ? [...result.map(({ id }) => ({ type: 'Post', id })), 'Post']
+              : ['Post'],
         }
       }
     })

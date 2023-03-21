@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Products from '../Products/Products'
 
@@ -8,6 +8,7 @@ import { useSearchProductQuery } from '../../features/api/apiSlice'
 
 const Category = () => {
   const { id } = useParams()
+  const [items, setItems] = useState([])
   const [values, setValues] = useState({
     id,
     title: '',
@@ -24,8 +25,9 @@ const Category = () => {
 
   const { data, isLoading, isSuccess } = useSearchProductQuery(values)
 
-  console.log(data)
-
+  useEffect(() => {
+    setItems(data)
+  }, [data, values])
   const resetResults = () => {
     setValues({
       ...values,
@@ -71,7 +73,7 @@ const Category = () => {
             <span>Price to</span>
           </div>
 
-          <button type="submit" hidden />
+          {/*<button type="submit" hidden />*/}
         </form>
 
         {isLoading ? (
@@ -84,7 +86,7 @@ const Category = () => {
         ) : (
           <Products
             title=""
-            products={data}
+            products={items}
             style={{ padding: 0 }}
             amount={data.length}
           />
